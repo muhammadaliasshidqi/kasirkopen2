@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Override standard colors with grayscale palette */
+    /* Bases */
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    /* Reds -> Dark Gray (Error/Danger) */
+    --color-red-50:  var(--color-gray-50);
+    --color-red-100: var(--color-gray-100);
+    --color-red-200: var(--color-gray-200);
+    --color-red-300: var(--color-gray-300);
+    --color-red-400: var(--color-gray-400);
+    --color-red-500: var(--color-gray-500);
+    --color-red-600: var(--color-gray-600);
+    --color-red-700: var(--color-gray-700);
+    --color-red-800: var(--color-gray-800);
+    --color-red-900: var(--color-gray-900);
+    --color-red-950: var(--color-gray-950);
+
+    /* Blues -> Gray (Info/Primary) */
+    --color-blue-50:  var(--color-gray-50);
+    --color-blue-100: var(--color-gray-100);
+    --color-blue-200: var(--color-gray-200);
+    --color-blue-300: var(--color-gray-300);
+    --color-blue-400: var(--color-gray-400);
+    --color-blue-500: var(--color-gray-500);
+    --color-blue-600: var(--color-gray-600);
+    --color-blue-700: var(--color-gray-700);
+    --color-blue-800: var(--color-gray-800);
+    --color-blue-900: var(--color-gray-900);
+    --color-blue-950: var(--color-gray-950);
+
+    /* Greens -> Gray (Success) */
+    --color-green-50:  var(--color-gray-50);
+    --color-green-100: var(--color-gray-100);
+    --color-green-200: var(--color-gray-200);
+    --color-green-300: var(--color-gray-300);
+    --color-green-400: var(--color-gray-400);
+    --color-green-500: var(--color-gray-500);
+    --color-green-600: var(--color-gray-600);
+    --color-green-700: var(--color-gray-700);
+    --color-green-800: var(--color-gray-800);
+    --color-green-900: var(--color-gray-900);
+    --color-green-950: var(--color-gray-950);
+
+    /* Yellows/Oranges -> Gray (Warning) */
+    --color-yellow-50:  var(--color-gray-50);
+    --color-yellow-100: var(--color-gray-100);
+    --color-yellow-200: var(--color-gray-200);
+    --color-yellow-300: var(--color-gray-300);
+    --color-yellow-400: var(--color-gray-400);
+    --color-yellow-500: var(--color-gray-500);
+    --color-yellow-600: var(--color-gray-600);
+    --color-yellow-700: var(--color-gray-700);
+    --color-yellow-800: var(--color-gray-800);
+    --color-yellow-900: var(--color-gray-900);
+    --color-yellow-950: var(--color-gray-950);
+
+    --color-orange-50:  var(--color-gray-50);
+    --color-orange-100: var(--color-gray-100);
+    --color-orange-200: var(--color-gray-200);
+    --color-orange-300: var(--color-gray-300);
+    --color-orange-400: var(--color-gray-400);
+    --color-orange-500: var(--color-gray-500);
+    --color-orange-600: var(--color-gray-600);
+    --color-orange-700: var(--color-gray-700);
+    --color-orange-800: var(--color-gray-800);
+    --color-orange-900: var(--color-gray-900);
+    --color-orange-950: var(--color-gray-950);
+
+    /* Purples/Indigos -> Gray (Accents) */
+    --color-purple-50:  var(--color-gray-50);
+    --color-purple-100: var(--color-gray-100);
+    --color-purple-200: var(--color-gray-200);
+    --color-purple-300: var(--color-gray-300);
+    --color-purple-400: var(--color-gray-400);
+    --color-purple-500: var(--color-gray-500);
+    --color-purple-600: var(--color-gray-600);
+    --color-purple-700: var(--color-gray-700);
+    --color-purple-800: var(--color-gray-800);
+    --color-purple-900: var(--color-gray-900);
+    --color-purple-950: var(--color-gray-950);
+
+    --color-indigo-50:  var(--color-gray-50);
+    --color-indigo-100: var(--color-gray-100);
+    --color-indigo-200: var(--color-gray-200);
+    --color-indigo-300: var(--color-gray-300);
+    --color-indigo-400: var(--color-gray-400);
+    --color-indigo-500: var(--color-gray-500);
+    --color-indigo-600: var(--color-gray-600);
+    --color-indigo-700: var(--color-gray-700);
+    --color-indigo-800: var(--color-gray-800);
+    --color-indigo-900: var(--color-gray-900);
+    --color-indigo-950: var(--color-gray-950);
+    
+    /* Other common colors */
+    --color-pink-500: var(--color-gray-500);
+    --color-pink-600: var(--color-gray-600);
+    --color-teal-500: var(--color-gray-500);
+    --color-teal-600: var(--color-gray-600);
+    --color-cyan-500: var(--color-gray-500);
+    --color-cyan-600: var(--color-gray-600);
+
+    /* Define some utility aliases if needed for specific overrides */
+    --color-primary: var(--color-black);
+    --color-secondary: var(--color-gray-500);
+}

@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         'kasir.auth' => \App\Http\Middleware\KasirAuth::class,
         'admin.only' => \App\Http\Middleware\AdminOnly::class,
         'kasir.only' => \App\Http\Middleware\KasirOnly::class,
-    ]);
+     ]);
 })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

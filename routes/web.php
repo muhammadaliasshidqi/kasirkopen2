@@ -32,11 +32,15 @@ Route::middleware(['kasir.auth'])->group(function () {
 });
 
 // Routes khusus untuk KASIR (akses penuh)
-Route::middleware(['kasir.auth', 'kasir.only'])->group(function () {
-    // Profile - Create & Delete Account (hanya kasir yang bisa)
+// Routes khusus untuk ADMIN (akses penuh kelola akun)
+Route::middleware(['kasir.auth', 'admin.only'])->group(function () {
+    // Profile - Create & Delete Account (hanya admin yang bisa)
     Route::post('/profile/account/create', [ProfileController::class, 'createAccount'])->name('profile.createAccount');
     Route::delete('/profile/account/{id}', [ProfileController::class, 'deleteAccount'])->name('profile.deleteAccount');
+});
 
+// Routes khusus untuk KASIR (akses penuh operasional)
+Route::middleware(['kasir.auth', 'kasir.only'])->group(function () {
     // Menu Management (hanya kasir yang bisa mengelola menu)
     Route::prefix('menu')->name('menu.')->group(function () {
         Route::get('/', [MenuController::class, 'index'])->name('index');

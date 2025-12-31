@@ -277,7 +277,7 @@
         </div>
 
 
-        @if($kasir->isKasir())
+        @if($kasir->isAdmin())
         <!-- Kelola Akun Kasir -->
         <div class="mt-6 glass-card rounded-xl p-6 shadow-sm">
             <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
@@ -404,15 +404,15 @@
             </div>
         </div>
         @else
-        <!-- Admin Notice -->
-        <div class="mt-6 glass-card rounded-xl p-6 shadow-sm border-2 border-blue-200 bg-blue-50">
+        <!-- Kasir Notice -->
+        <div class="mt-6 glass-card rounded-xl p-6 shadow-sm border-2 border-green-200 bg-green-50">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4 shadow-sm">
+                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mr-4 shadow-sm">
                     <i class="fas fa-info-circle text-white text-xl"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-blue-900">Akses Admin</h3>
-                    <p class="text-blue-800 font-medium">Anda login sebagai Admin. Fitur kelola akun kasir hanya tersedia untuk role Kasir.</p>
+                    <h3 class="text-lg font-bold text-green-900">Akses Kasir</h3>
+                    <p class="text-green-800 font-medium">Anda login sebagai Kasir. Fitur kelola akun kasir hanya tersedia untuk role Admin.</p>
                 </div>
             </div>
         </div>

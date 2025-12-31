@@ -101,6 +101,16 @@
                     <span class="text-gray-600 font-bold">Username:</span>
                     <span class="font-bold text-gray-900 font-mono">{{ $kasir->username }}</span>
                 </div>
+                <div class="flex justify-between items-center p-4 bg-{{ $kasir->isAdmin() ? 'blue' : 'green' }}-50 rounded-lg border-2 border-{{ $kasir->isAdmin() ? 'blue' : 'green' }}-200">
+                    <span class="text-gray-600 font-bold flex items-center">
+                        <i class="fas fa-user-tag mr-2"></i>
+                        Role:
+                    </span>
+                    <span class="font-bold text-{{ $kasir->isAdmin() ? 'blue' : 'green' }}-700 text-lg uppercase tracking-wide">
+                        <i class="fas fa-{{ $kasir->isAdmin() ? 'user-shield' : 'cash-register' }} mr-2"></i>
+                        {{ $kasir->isAdmin() ? 'Admin' : 'Kasir' }}
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -266,6 +276,8 @@
             </div>
         </div>
 
+
+        @if($kasir->isKasir())
         <!-- Kelola Akun Kasir -->
         <div class="mt-6 glass-card rounded-xl p-6 shadow-sm">
             <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
@@ -391,6 +403,20 @@
                 @endforeach
             </div>
         </div>
+        @else
+        <!-- Admin Notice -->
+        <div class="mt-6 glass-card rounded-xl p-6 shadow-sm border-2 border-blue-200 bg-blue-50">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4 shadow-sm">
+                    <i class="fas fa-info-circle text-white text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-blue-900">Akses Admin</h3>
+                    <p class="text-blue-800 font-medium">Anda login sebagai Admin. Fitur kelola akun kasir hanya tersedia untuk role Kasir.</p>
+                </div>
+            </div>
+        </div>
+        @endif
 
         <!-- Security Tips -->
         <div class="mt-6 glass-card rounded-xl p-6 shadow-sm">

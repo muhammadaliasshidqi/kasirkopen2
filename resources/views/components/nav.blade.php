@@ -27,7 +27,7 @@
                         <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 bg-black rounded-full"></span>
                         @endif
                     </a>
-                    
+                    @if(auth()->user()->isKasir())
                     <a href="{{ route('transaksi.index') }}" class="relative px-5 py-2.5 rounded-lg font-medium transition-all duration-300 group {{ request()->routeIs('transaksi.*') ? 'text-black bg-gray-100' : 'text-gray-500 hover:text-black hover:bg-gray-50' }}">
                         <span class="relative z-10 flex items-center">
                             <i class="fas fa-shopping-cart mr-2 transition-transform group-hover:scale-110 duration-300"></i>
@@ -47,6 +47,7 @@
                         <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 bg-black rounded-full"></span>
                         @endif
                     </a>
+                    @endif
                     
                     <a href="{{ route('laporan.index') }}" class="relative px-5 py-2.5 rounded-lg font-medium transition-all duration-300 group {{ request()->routeIs('laporan.*') ? 'text-black bg-gray-100' : 'text-gray-500 hover:text-black hover:bg-gray-50' }}">
                         <span class="relative z-10 flex items-center">
@@ -76,7 +77,11 @@
                         </div>
                         <div class="text-left hidden lg:block">
                             <p class="text-sm font-semibold text-gray-900 group-hover:text-black transition-colors duration-300">{{ auth()->user()->nama_kasir ?? 'Admin' }}</p>
-                            <p class="text-xs text-gray-500">{{ auth()->user()->username ?? 'admin' }}</p>
+                            <p class="text-xs text-gray-500">
+                                <span class="{{ auth()->user()->isAdmin() ? 'text-blue-600' : 'text-green-600' }} font-semibold">
+                                    {{ auth()->user()->isAdmin() ? 'Admin' : 'Kasir' }}
+                                </span>
+                            </p>
                         </div>
                         <i class="fas fa-chevron-down text-gray-400 text-xs transition-all duration-300 group-hover:text-black" :class="{ 'rotate-180': profileOpen }"></i>
                     </button>
@@ -160,6 +165,7 @@
                 <span>Dashboard</span>
             </a>
             
+            @if(auth()->user()->isKasir())
             <a href="{{ route('transaksi.index') }}" class="flex items-center px-4 py-3.5 rounded-lg transition-all duration-300 group {{ request()->routeIs('transaksi.*') ? 'bg-gray-100 text-black font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-black' }}">
                 <i class="fas fa-shopping-cart mr-3 w-5"></i>
                 <span>Transaksi</span>
@@ -169,6 +175,7 @@
                 <i class="fas fa-utensils mr-3 w-5"></i>
                 <span>Menu</span>
             </a>
+            @endif
             
             <a href="{{ route('laporan.index') }}" class="flex items-center px-4 py-3.5 rounded-lg transition-all duration-300 group {{ request()->routeIs('laporan.*') ? 'bg-gray-100 text-black font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-black' }}">
                 <i class="fas fa-chart-line mr-3 w-5"></i>

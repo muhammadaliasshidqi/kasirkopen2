@@ -16,9 +16,26 @@ class Kasir extends Authenticatable
         'nama_kasir',
         'username',
         'password',
+        'role',
     ];
 
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is kasir
+     */
+    public function isKasir(): bool
+    {
+        return $this->role === 'kasir';
+    }
 }

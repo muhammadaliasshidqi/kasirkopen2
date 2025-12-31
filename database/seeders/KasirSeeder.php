@@ -12,16 +12,16 @@ class KasirSeeder extends Seeder
     {
         DB::table('kasir')->insert([
             [
-                'nama_kasir' => 'Admin Kasir',
+                'nama_kasir' => 'Admin Kopen',
                 'username' => 'admin',
                 'password' => Hash::make('admin123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kasir' => 'Azis',
-                'username' => 'azis',
-                'password' => Hash::make('azis123'),
+                'nama_kasir' => 'Kasir Kopen',
+                'username' => 'kasir',
+                'password' => Hash::make('kasir123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

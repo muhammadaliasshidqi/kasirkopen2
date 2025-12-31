@@ -33,6 +33,7 @@ class TransaksiController extends Controller
                 'items.*.jumlah' => 'required|integer|min:1',
                 'metode_pembayaran' => 'required|in:tunai,qris',
                 'bayar' => 'required|numeric|min:0',
+                'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Tambahan validasi file
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
@@ -103,8 +104,19 @@ class TransaksiController extends Controller
                 'metode_pembayaran' => $request->metode_pembayaran,
                 'bayar' => $request->bayar,
                 'kembalian' => $kembalian,
+                'bukti_pembayaran' => null, // Default null
             ]);
 
+            // Handle file upload jika ada
+            if ($request->hasFile('bukti_pembayaran')) {
+                $file = $request->file('bukti_pembayaran');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads/bukti_pembayaran'), $filename);
+                
+                $transaksi->update([
+                    'bukti_pembayaran' => 'uploads/bukti_pembayaran/' . $filename
+                ]);
+            }
             // Simpan detail transaksi dan update stok
             foreach ($items as $item) {
                 DetailTransaksi::create([
@@ -185,9 +197,9 @@ class TransaksiController extends Controller
     // Batalkan transaksi (hanya hari ini)
     public function cancel(Transaksi $transaksi)
     {
-        if (!$transaksi->tanggal->isToday()) {
-            return back()->with('error', 'Hanya bisa membatalkan transaksi hari ini!');
-        }
+        // if (!$transaksi->tanggal->isToday()) {
+        //     return back()->with('error', 'Hanya bisa membatalkan transaksi hari ini!');
+        // }
 
         DB::beginTransaction();
         try {

@@ -77,9 +77,7 @@
                     class="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-gray-200 focus:border-black transition"
                 >
                     <option value="">Semua Metode</option>
-                    <option value="tunai" {{ request('metode') == 'tunai' ? 'selected' : '' }}>Tunai</option>
-                    <option value="debit" {{ request('metode') == 'debit' ? 'selected' : '' }}>Debit</option>
-                    <option value="kredit" {{ request('metode') == 'kredit' ? 'selected' : '' }}>Kredit</option>
+                    <option value="tunai" {{ request('metode') == 'tunai' ? 'selected' : '' }}>Tunai</option>                                                           
                     <option value="qris" {{ request('metode') == 'qris' ? 'selected' : '' }}>QRIS</option>
                 </select>
                 <button type="submit" class="bg-black text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:bg-gray-800 transition">
@@ -152,13 +150,16 @@
                                            title="Lihat Detail">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('transaksi.print', $transaksi) }}" 
-                                           target="_blank"
-                                           class="w-9 h-9 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 hover:text-black hover:border-black transition flex items-center justify-center"
-                                           title="Print Struk">
-                                            <i class="fas fa-print"></i>
-                                        </a>
-                                        @if($transaksi->tanggal->isToday())
+
+                                        @if(in_array($transaksi->metode_pembayaran, ['qris', 'transfer']) && $transaksi->bukti_pembayaran)
+                                            <button 
+                                                onclick="showBukti('{{ asset($transaksi->bukti_pembayaran) }}')"
+                                                class="w-9 h-9 bg-blue-600 text-white rounded-xl hover:bg-blue-700 hover:shadow-lg transition flex items-center justify-center transform hover:scale-105"
+                                                title="Lihat Bukti">
+                                                <i class="fas fa-image"></i>
+                                            </button>
+                                        @endif
+
                                             <form method="POST" action="{{ route('transaksi.cancel', $transaksi) }}"
                                                   onsubmit="return confirm('Yakin ingin membatalkan transaksi ini?')"
                                                   class="inline">
@@ -170,7 +171,6 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -243,4 +243,45 @@
         @endif
     </div>
 </div>
+    <!-- Modal Bukti Pembayaran -->
+    <div id="buktiModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeBukti()"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900" id="modal-title">
+                            Bukti Pembayaran
+                        </h3>
+                        <button type="button" onclick="closeBukti()" class="text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <img id="buktiImage" src="" alt="Bukti Pembayaran" class="w-full rounded-lg shadow-sm border border-gray-200">
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" onclick="closeBukti()" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-gray-800 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showBukti(imageUrl) {
+        document.getElementById('buktiImage').src = imageUrl;
+        document.getElementById('buktiModal').classList.remove('hidden');
+    }
+
+    function closeBukti() {
+        document.getElementById('buktiModal').classList.add('hidden');
+    }
+</script>
 @endsection

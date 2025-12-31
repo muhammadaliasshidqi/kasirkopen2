@@ -122,6 +122,7 @@
                         <span>Dashboard</span>
                     </a>
                     
+                    @if(Auth::guard('kasir')->user()->isKasir())
                     <a href="{{ route('transaksi.index') }}" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">
                         <i class="fas fa-shopping-cart w-5"></i>
                         <span>Transaksi</span>
@@ -131,6 +132,7 @@
                         <i class="fas fa-utensils w-5"></i>
                         <span>Menu</span>
                     </a>
+                    @endif
                     
                     <a href="{{ route('laporan.index') }}" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                         <i class="fas fa-chart-bar w-5"></i>
@@ -175,6 +177,7 @@
                         <span class="font-medium">Dashboard</span>
                     </a>
                     
+                    @if(Auth::guard('kasir')->user()->isKasir())
                     <a href="{{ route('transaksi.index') }}" class="sidebar-link flex items-center space-x-3 px-4 py-3.5 rounded-lg {{ request()->routeIs('transaksi.*') ? 'active' : 'text-gray-400 hover:text-white' }}">
                         <i class="fas fa-shopping-cart w-5 text-lg"></i>
                         <span class="font-medium">Transaksi</span>
@@ -184,6 +187,7 @@
                         <i class="fas fa-utensils w-5 text-lg"></i>
                         <span class="font-medium">Menu</span>
                     </a>
+                    @endif
                     
                     <a href="{{ route('laporan.index') }}" class="sidebar-link flex items-center space-x-3 px-4 py-3.5 rounded-lg {{ request()->routeIs('laporan.*') ? 'active' : 'text-gray-400 hover:text-white' }}">
                         <i class="fas fa-chart-bar w-5 text-lg"></i>

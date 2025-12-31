@@ -172,10 +172,25 @@
                             <i class="fas fa-credit-card mr-2"></i>
                             Metode Pembayaran
                         </label>
-                        <select id="metodePembayaran" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition font-semibold">
+                        <select id="metodePembayaran" onchange="toggleBuktiPembayaran()" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition font-semibold">
                             <option value="tunai">Tunai</option>
                             <option value="qris">QRIS</option>
                         </select>
+                    </div>
+
+                    <!-- Bukti Pembayaran Input (Hidden by default) -->
+                    <div id="containerBukti" class="mb-4 hidden">
+                        <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">
+                            <i class="fas fa-image mr-2"></i>
+                            Bukti Pembayaran
+                        </label>
+                        <input 
+                            type="file" 
+                            id="buktiPembayaran"
+                            accept="image/*"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition text-sm"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">*Upload bukti transfer/scan QRIS</p>
                     </div>
 
                     <!-- Payment Input -->
@@ -392,24 +407,30 @@ async function prosesCheckout() {
     btnCheckout.disabled = true;
     btnCheckout.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Memproses...';
 
-    const data = {
-        items: cart.map(item => ({
-            id_menu: item.id,
-            jumlah: item.jumlah
-        })),
-        metode_pembayaran: metode,
-        bayar: bayar
-    };
+    const formData = new FormData();
+    formData.append('metode_pembayaran', metode);
+    formData.append('bayar', bayar);
+
+    // Append items array manually for FormData
+    cart.forEach((item, index) => {
+        formData.append(`items[${index}][id_menu]`, item.id);
+        formData.append(`items[${index}][jumlah]`, item.jumlah);
+    });
+
+    // Append file if exists and method is QRIS
+    const fileInput = document.getElementById('buktiPembayaran');
+    if (metode === 'qris' && fileInput.files.length > 0) {
+        formData.append('bukti_pembayaran', fileInput.files[0]);
+    }
 
     try {
         const response = await fetch('{{ route("transaksi.store") }}', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: formData
         });
 
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -426,6 +447,8 @@ async function prosesCheckout() {
             updateCart();
             document.getElementById('jumlahBayar').value = '';
             document.getElementById('kembalian').textContent = '';
+            document.getElementById('buktiPembayaran').value = ''; // Reset file input
+            toggleBuktiPembayaran(); // Reset visibility
             
             showNotification('Transaksi berhasil!', 'success');
         } else {
@@ -442,6 +465,19 @@ async function prosesCheckout() {
 function closeModal() {
     document.getElementById('successModal').classList.add('hidden');
     currentTransaksiId = null;
+    document.getElementById('metodePembayaran').value = 'tunai';
+    toggleBuktiPembayaran();
+}
+
+function toggleBuktiPembayaran() {
+    const metode = document.getElementById('metodePembayaran').value;
+    const container = document.getElementById('containerBukti');
+    
+    if (metode === 'qris') {
+        container.classList.remove('hidden');
+    } else {
+        container.classList.add('hidden');
+    }
 }
 
 function printStruk() {

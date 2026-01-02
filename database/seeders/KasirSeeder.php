@@ -15,6 +15,7 @@ class KasirSeeder extends Seeder
                 'nama_kasir' => 'Admin Kopen',
                 'username' => 'admin',
                 'password' => Hash::make('admin123'),
+                'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -22,6 +23,7 @@ class KasirSeeder extends Seeder
                 'nama_kasir' => 'Kasir Kopen',
                 'username' => 'kasir',
                 'password' => Hash::make('kasir123'),
+                'role' => 'kasir', // Explicitly set, though default is kasir
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

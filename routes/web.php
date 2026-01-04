@@ -34,9 +34,8 @@ Route::middleware(['kasir.auth'])->group(function () {
 // Routes khusus untuk KASIR (akses penuh)
 // Routes khusus untuk ADMIN (akses penuh kelola akun)
 Route::middleware(['kasir.auth', 'admin.only'])->group(function () {
-    // Profile - Create, Update & Delete Account (hanya admin yang bisa)
+    // Profile - Create & Delete Account (hanya admin yang bisa)
     Route::post('/profile/account/create', [ProfileController::class, 'createAccount'])->name('profile.createAccount');
-    Route::put('/profile/account/{id}', [ProfileController::class, 'updateAccount'])->name('profile.updateAccount');
     Route::delete('/profile/account/{id}', [ProfileController::class, 'deleteAccount'])->name('profile.deleteAccount');
 });
 

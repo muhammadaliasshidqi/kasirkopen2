@@ -16,49 +16,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update akun kasir (Admin only)
-     */
-    public function updateAccount(Request $request, $id)
-    {
-        $currentUser = Auth::guard('kasir')->user();
-        if (!$currentUser || !$currentUser->isAdmin()) {
-            return redirect()->route('login')->withErrors(['error' => 'Akses ditolak']);
-        }
-
-        $kasirToUpdate = Kasir::findOrFail($id);
-
-        $rules = [
-            'nama_kasir' => 'required|string|min:3',
-            'username' => [
-                'required', 'string', 'min:3',
-                Rule::unique('kasir', 'username')->ignore($kasirToUpdate->id_kasir, 'id_kasir'),
-            ],
-        ];
-
-        // Validasi password hanya jika diisi
-        if ($request->filled('password')) {
-            $rules['password'] = 'required|string|min:6';
-        }
-
-        $request->validate($rules, [
-            'nama_kasir.required' => 'Nama kasir wajib diisi',
-            'username.unique' => 'Username sudah digunakan',
-        ]);
-
-        $kasirToUpdate->nama_kasir = $request->nama_kasir;
-        $kasirToUpdate->username = $request->username;
-        
-        if ($request->filled('password')) {
-            $kasirToUpdate->password = Hash::make($request->password);
-        }
-
-        $kasirToUpdate->save();
-
-        return redirect()->route('profile.index')
-            ->with('success', 'Data akun kasir berhasil diperbarui!');
-    }
-
-    /**
      * Tampilkan halaman profile
      */
     public function index()
@@ -150,11 +107,6 @@ class ProfileController extends Controller
         if (!$kasir) {
             return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
         }
-        
-        // Hanya admin yang boleh ganti username
-        if (!$kasir->isAdmin()) {
-             return redirect()->route('profile.index')->withErrors(['error' => 'Hanya Admin yang dapat mengubah profil']);
-        }
 
         // Validasi input
         $request->validate([
@@ -184,11 +136,6 @@ class ProfileController extends Controller
         $kasir = Auth::guard('kasir')->user();
         if (!$kasir) {
             return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
-        }
-
-        // Hanya admin yang boleh ganti password
-        if (!$kasir->isAdmin()) {
-             return redirect()->route('profile.index')->withErrors(['error' => 'Hanya Admin yang dapat mengubah profil']);
         }
 
         // Validasi input
@@ -223,11 +170,6 @@ class ProfileController extends Controller
         $kasir = Auth::guard('kasir')->user();
         if (!$kasir) {
             return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
-        }
-
-        // Hanya admin yang boleh ganti nama
-        if (!$kasir->isAdmin()) {
-             return redirect()->route('profile.index')->withErrors(['error' => 'Hanya Admin yang dapat mengubah profil']);
         }
 
         // Validasi input
